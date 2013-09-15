@@ -1,0 +1,168 @@
+
+%skeleton "lalr1.cc"
+%defines
+%define "parser_class_name" "JsonParser"
+
+%locations
+%error-verbose
+/* %debug */
+
+%code requires 
+{
+
+class JsonLexer;
+
+#include "rjson.h"
+}
+
+%parse-param {JsonLexer& lex}
+%parse-param {rjson::Value& value}
+%parse-param {std::ostream& err}
+%parse-param {std::string filename}
+%lex-param   {JsonLexer& lex}
+
+%initial-action
+{
+    // Initialize the initial location.
+    @$.begin.line = @$.end.line = 1;
+    @$.begin.filename = @$.end.filename = &filename;
+};
+
+// Symbols.
+%union
+{    
+    rjson::Value* value;
+    rjson::Object* object;
+    rjson::Array* array;
+}
+
+%token              END 0           "end of file"
+%token              ERROR           "lexing error"
+
+%token <value>      _NULL           "null"
+%token <value>      TRUE            "true"
+%token <value>      FALSE           "false"
+%token <value>      NUMBER          "number"
+%token <value>      STRING          "string"
+
+%token              LCURL           "{"
+%token              RCURL           "}"
+%token              LBRAK           "["
+%token              RBRAK           "]"
+%token              COMMA           ","
+%token              COLON           ":"
+
+
+%type <value>       value
+%type <object>    	object members
+%type <array>   	array elements
+
+
+%destructor { delete $$; } <value>
+%destructor { delete $$; } <object>
+%destructor { delete $$; } <array>
+
+%{
+int yylex(yy::JsonParser::semantic_type* yylval, yy::JsonParser::location_type* yylloc, JsonLexer& lex);
+
+#include "JsonLexer.h"
+%}
+
+%%
+
+json: 
+    object {
+        value = rjson::Value(*$1);
+        delete $1;
+    } |     
+    array {
+        value = rjson::Value(*$1);
+        delete $1;
+    };
+
+object: 
+    "{" "}" {
+        $$ = new rjson::Object;
+    } |
+    "{" members "}" {
+        $$ = $2;
+    };
+
+members:
+    STRING ":" value {
+        $$ = new rjson::Object;
+        std::string key = *$1;
+        $$->insert(std::make_pair(key, *$3));
+        delete $1;
+        delete $3;
+    } |
+    STRING ":" value "," members {
+        $$ = $5;
+        std::string key = *$1;
+        $$->insert(std::make_pair(key, *$3));
+        delete $1;
+        delete $3;
+    };
+    
+array:
+    "[" "]" {
+        $$ = new rjson::Array;
+    } |
+    "[" elements "]" {
+        $$ = $2;
+    };
+    
+elements:
+    value {
+        $$ = new rjson::Array;
+        $$->push_back(*$1);
+        delete $1;
+    } |
+    value "," elements {
+        $$ = $3;
+        $$->push_back(*$1);
+        delete $1;
+    };
+    
+value:
+    object {
+        $$ = new rjson::Value(*$1);
+        delete $1;
+    } |
+    array {
+        $$ = new rjson::Value(*$1);
+        delete $1;
+    } |
+    STRING {
+        $$ = $1;
+    } |
+    NUMBER {
+        $$ = $1;
+    } |    
+    TRUE {
+        $$ = $1;
+    } |
+    FALSE {
+        $$ = $1;
+    } |
+    _NULL {
+        $$ = $1;
+    };
+
+%%
+
+#include <iostream>
+
+#include "JsonLexer.h"
+
+//-----------------------------------------------------------------------------
+void yy::JsonParser::error(const location_type& l, const std::string& m)
+{    
+    err << *l.begin.filename << "(" << l.begin.line << "): " << m << std::endl;
+}
+
+//-----------------------------------------------------------------------------
+int yylex(yy::JsonParser::semantic_type* yylval, yy::JsonParser::location_type* yylloc, JsonLexer& lex)
+{
+    return lex.yylex(yylval, yylloc);
+}
