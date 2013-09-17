@@ -194,7 +194,7 @@ class instead.
 
 ### Writing JSON
 
-To write JSON you use the stream insertion operator '<<' with a ostream. You can 
+To write JSON you use the stream insertion operator `<<` with a ostream. You can 
 insert either a Value, Array or Object.
 
 Caveats
@@ -217,6 +217,11 @@ may not be what was expected.
 
 Currently the library outputs JSON without any formatting. This may not be 
 what was expected, but it is valid JSON.
+
+### Unicode Sequences
+
+The current implementation lacks support for unescaping Unicode sequences 
+(e.g. \u2623). This will be amended soon.
 
 License
 -------
