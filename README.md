@@ -67,15 +67,18 @@ Writing JSON is also straight forward:
         message["broadcast"] = true;
         message["theAwnser"] = 42;
         
-        std::cout << message;
+        std::cout << std::setw(2) << message;
     }
 
 The above code will output:
 
-    {"broadcast":true,"from":"rioki","message":"JSON beats XML hands down!","theAwnser":42,"to":"world"}
-
-Granted, it is not formatted for human readability, but it is valid JSON. 
-(Formatting will be added in a later stage.)
+    {
+      "broadcast": true,
+      "from": "rioki",
+      "message": "JSON beats XML hands down!",
+      "theAwnser": 42,
+      "to": "world"
+    }
 
 Building
 --------
@@ -197,6 +200,10 @@ class instead.
 To write JSON you use the stream insertion operator `<<` with a ostream. You can 
 insert either a Value, Array or Object.
 
+Indentation is controlled through the width parameter on the `std::ostream`. 
+The easy way to set this is by using `std::setw`. The given value indicates the
+indentation width.
+
 Caveats
 -------
 
@@ -212,11 +219,6 @@ Because the underlying implementation of an object is a `std::map`, the order
 of the members is not recorded. As a result reading and writing a JSON file 
 will probably reorder the members. Semantically the files are equal, yet it 
 may not be what was expected.
-
-### Human Readable Output
-
-Currently the library outputs JSON without any formatting. This may not be 
-what was expected, but it is valid JSON.
 
 ### Unicode Sequences
 

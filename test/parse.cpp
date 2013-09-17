@@ -4,8 +4,6 @@
 #include "rjson.h"
 #include <fstream>
 
-#include <iostream>
-
 SUITE(parse)
 {
     TEST(initial)
@@ -20,9 +18,7 @@ SUITE(parse)
         CHECK_EQUAL(rjson::TYPE_OBJECT, value.get_type());
         
         rjson::Object object = value;
-        
-        std::cout << value << std::endl;
-        
+                
         CHECK_EQUAL("http-server", (const char*)object["name"]);
     }
 }    

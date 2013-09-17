@@ -89,16 +89,39 @@ namespace rjson
         
         os << "\"";
     }
-
-    std::ostream& operator << (std::ostream& os, const Value& v)
+    
+    struct indent
     {
-        switch (v.get_type())
+        unsigned int spaces;
+        unsigned int level;
+    
+        indent(unsigned int s, unsigned int l)
+        : spaces(s), level(l) {}
+    };
+    
+    std::ostream& operator << (std::ostream& os, indent in)
+    {
+        unsigned int cnt = in.spaces * in.level;
+    
+        for (unsigned int i = 0; i < cnt; i++)
+        {            
+            os << " ";
+        }
+        return os;
+    }
+    
+    void write(std::ostream& os, unsigned int spaces, unsigned int level, const Array& array);
+    void write(std::ostream& os, unsigned int spaces, unsigned int level, const Object& object);
+    
+    void write(std::ostream& os, unsigned int spaces, unsigned int level, const Value& value)
+    {
+        switch (value.get_type())
         {
             case TYPE_NULL:
                 os << "null";
                 break;
             case TYPE_BOOLEAN:
-                if ((bool)v)
+                if ((bool)value)
                 {
                     os << "true";
                 }
@@ -108,61 +131,142 @@ namespace rjson
                 }
                 break;
             case TYPE_NUMBER:
-                os << (double)v;
+                os << (double)value;
                 break;
             case TYPE_STRING:
-                print_escaped(os, (const char*)v);
+                print_escaped(os, (const char*)value);
                 break;
             case TYPE_ARRAY:
-                os << (const Array&)v;
+                write(os, spaces, level, (const Array&)value);                
                 break;
             case TYPE_OBJECT:
-                os << (const Object&)v;
+                write(os, spaces, level, (const Object&)value);
                 break;
             default:               
                 assert(false && "this never happens!");
                 throw std::logic_error("stream op for Value: invalid type"); 
         }
-        return os;
     }
-
-    std::ostream& operator << (std::ostream& os, const Array& a)
+    
+    void write(std::ostream& os, unsigned int spaces, unsigned int level, const Array& array)
     {
-        os << "[";
-        for (unsigned int i = 0; i < a.size(); i++)
+        level++;
+        
+        if (spaces == 0)
         {
-            os << a[i];
-            if (i != a.size() - 1)
+            os << "[";
+        }
+        else
+        {
+            os << "[\n" << indent(spaces, level);
+        }
+        
+        for (unsigned int i = 0; i < array.size(); i++)
+        {
+            write(os, spaces, level, array[i]);
+            if (i != array.size() - 1)
             {
-                os << ",";
+                if (spaces == 0)
+                {
+                    os << ",";
+                }
+                else
+                {
+                    os << ",\n" << indent(spaces, level);
+                }                
             }
         }
-        os << "]";
+        
+        level--;
+        
+        if (spaces == 0)
+        {
+            os << "]";
+        }
+        else
+        {
+            os << "\n" << indent(spaces, level) << "]";
+        }
+    }
     
+    void write(std::ostream& os, unsigned int spaces, unsigned int level, const Object& object)
+    {
+        level++;
+        if (spaces == 0)
+        {
+            os << "{";
+        }
+        else
+        {
+            os << "{\n" << indent(spaces, level);
+        }
+
+        Object::const_iterator i = object.begin();
+        while (i != object.end())
+        {
+            print_escaped(os, i->first.c_str());
+            
+            if (spaces == 0)
+            {
+                os << ":";
+            }
+            else
+            {
+                os << ": ";
+            }
+            
+            write(os, spaces, level, i->second);            
+            i++;
+            
+            if (i != object.end())
+            {
+                if (spaces == 0)
+                {
+                    os << ",";
+                }
+                else
+                {
+                    os << ",\n" << indent(spaces, level);
+                } 
+            }
+        }
+        
+        level--;
+        
+        if (spaces == 0)
+        {
+            os << "}";
+        }
+        else
+        {
+            os << "\n" << indent(spaces, level) << "}";
+        }
+    }
+    
+    std::ostream& operator << (std::ostream& os, const Value& v)
+    {
+        unsigned int spaces = os.width();
+        os.width(0);
+        
+        write(os, spaces, 0, v);
+        return os;
+    }
+    
+    std::ostream& operator << (std::ostream& os, const Array& a)
+    {
+        unsigned int spaces = os.width();
+        os.width(0);
+        
+        write(os, spaces, 0, a);    
         return os;
     }
 
     std::ostream& operator << (std::ostream& os, const Object& o)
     {        
-        os << "{";
-
-        Object::const_iterator i = o.begin();
-        while (i != o.end())
-        {
-            print_escaped(os, i->first.c_str());
-            
-            os << ":" << i->second;
-            
-            i++;
-            
-            if (i != o.end())
-            {
-                os << ",";
-            }
-        }        
+        unsigned int spaces = os.width();
+        os.width(0);
         
-        os << "}";
-    
+        write(os, spaces, 0, o);    
         return os;
     }
 
