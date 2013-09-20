@@ -1,4 +1,5 @@
 
+prefix     ?= /usr/local
 CXX        ?= g++
 CXXFLAGS   += -g -Wall -std=c++0x -Iinclude -Igen/src -Isrc
 LDFLAGS    += 
@@ -17,7 +18,7 @@ else
   LIBEXT    = .so  
 endif
 
-.PHONY: all check clean
+.PHONY: all check clean install uninstall
 
 all: bin/rjson$(LIBEXT)
 
@@ -44,6 +45,19 @@ bin/rjson-check$(EXEEXT): $(patsubst %.cpp, obj/%.o, $(check_srcs)) lib/librjson
 
 clean:
 	rm -rf bin lib obj
+	
+install: lib/librjson.a bin/rjson$(LIBEXT)
+	mkdir -p $(prefix)/include
+	cp include/rjson.h $(prefix)/include
+	mkdir -p $(prefix)/lib
+	cp lib/librjson.a $(prefix)/lib
+	mkdir -p $(prefix)/bin
+	cp bin/rjson$(LIBEXT) $(prefix)/bin
+
+uninstall:
+	rm $(prefix)/include/rjson.h
+	rm $(prefix)/lib/librjson.a
+	rm $(prefix)/bin/rjson$(LIBEXT)
 
 obj/%.o : %.cpp
 	mkdir -p $(shell dirname $@)

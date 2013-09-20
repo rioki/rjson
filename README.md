@@ -95,8 +95,22 @@ want to run the `check` target.
 
     make check
     
-(Install and uninstall targets not yet realised.)
+To install the library into your system you simply call the `install`
+target:
 
+    make install
+    
+If you want to control where the library is installed you can specify this
+with the `prefix` variables, like so:
+
+    prefix=$HOME/libs make install
+
+If you want to remove the library from your system, use the `uninstall` target:
+
+    make uninstall
+    
+As with the `install target you can specify the `prefix` variable.
+    
 Building (Visual Studio)
 ------------------------
 
