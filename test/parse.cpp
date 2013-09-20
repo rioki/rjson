@@ -3,6 +3,7 @@
 
 #include "rjson.h"
 #include <fstream>
+#include <sstream>
 
 SUITE(parse)
 {
@@ -20,5 +21,17 @@ SUITE(parse)
         rjson::Object object = value;
                 
         CHECK_EQUAL("http-server", (const char*)object["name"]);
+    }
+    
+    TEST(numbers) 
+    {
+        std::stringstream buff;
+        buff << "[123,\n +2,\n -3,\n 0.4,\n +0.5,\n -0.5,\n 0.678910,\n"
+                " 2e-2,\n 3E+4,\n 5e9,\n 9E3,\n 1.2e3,\n 1.2E+6]";
+        
+        rjson::Array value;
+        buff >> value;
+        
+        
     }
 }    
