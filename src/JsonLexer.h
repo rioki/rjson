@@ -12,14 +12,14 @@
 class JsonLexer : public yyFlexLexer
 {
 public:
-    typedef yy::JsonParser::token token;
-    typedef yy::JsonParser::token_type token_type;
-    typedef yy::JsonParser::semantic_type semantic_type;
-    typedef yy::JsonParser::location_type location_type;
+    typedef rjson::parser::token token;
+    typedef rjson::parser::token_type token_type;
+    typedef rjson::parser::semantic_type semantic_type;
+    typedef rjson::parser::location_type location_type;
 
     JsonLexer(std::istream& input, std::ostream& error);    
         
-    int yylex(semantic_type* yylval, location_type* yylloc);
+    int lex(semantic_type* yylval, location_type* yylloc);
     
     virtual int yylex();
             

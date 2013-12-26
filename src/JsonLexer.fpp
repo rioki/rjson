@@ -145,7 +145,7 @@ JsonLexer::JsonLexer(std::istream& input, std::ostream& e)
     switch_streams(&input, NULL);
 }
         
-int JsonLexer::yylex(semantic_type* _yylval, location_type* _yylloc)
+int JsonLexer::lex(semantic_type* _yylval, location_type* _yylloc)
 {
     this->yylval = _yylval;
     this->yylloc = _yylloc;

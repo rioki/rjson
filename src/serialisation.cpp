@@ -315,8 +315,8 @@ namespace rjson
         std::string filename;
         
         JsonLexer lexer(is, error);
-        yy::JsonParser parser(lexer, value, error, filename);
-        int r = parser.parse();
+        parser prs(lexer, value, error, filename);
+        int r = prs.parse();
         
         if (r != 0)
         {

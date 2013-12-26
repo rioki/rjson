@@ -1,7 +1,7 @@
 
 %skeleton "lalr1.cc"
 %defines
-%define "parser_class_name" "JsonParser"
+%define api.namespace {rjson}
 
 %locations
 %error-verbose
@@ -63,7 +63,7 @@ class JsonLexer;
 %destructor { delete $$; } <array>
 
 %{
-int yylex(yy::JsonParser::semantic_type* yylval, yy::JsonParser::location_type* yylloc, JsonLexer& lex);
+int yylex(rjson::parser::semantic_type* yylval, rjson::parser::location_type* yylloc, JsonLexer& lex);
 
 #include "JsonLexer.h"
 %}
@@ -155,14 +155,12 @@ value:
 
 #include "JsonLexer.h"
 
-//-----------------------------------------------------------------------------
-void yy::JsonParser::error(const location_type& l, const std::string& m)
+void rjson::parser::error(const location_type& l, const std::string& m)
 {    
     err << *l.begin.filename << "(" << l.begin.line << "): " << m << std::endl;
 }
 
-//-----------------------------------------------------------------------------
-int yylex(yy::JsonParser::semantic_type* yylval, yy::JsonParser::location_type* yylloc, JsonLexer& lex)
+int yylex(rjson::parser::semantic_type* yylval, rjson::parser::location_type* yylloc, JsonLexer& lex)
 {
-    return lex.yylex(yylval, yylloc);
+    return lex.lex(yylval, yylloc);
 }
