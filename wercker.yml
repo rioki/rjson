@@ -1,0 +1,26 @@
+box: rioki/gcc-cpp
+build:
+  steps:
+    - install-packages:
+        packages: git
+    - script:
+        name: get rtest
+        code: git clone https://github.com/rioki/rtest.git
+    - script: 
+        name: build rtest
+        code: cd rtest && make && sudo make install    
+    - script:
+        name: ldconfig
+        code: sudo ldconfig
+    - script:    
+        name: autogen
+        code: sh autogen.sh
+    - script:
+        name: configure
+        code: sh configure
+    - script:    
+        name: make
+        code: make
+    - script:
+        name: make check
+        code: make check
