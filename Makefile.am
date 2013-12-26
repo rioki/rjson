@@ -44,7 +44,8 @@ MAINTAINERCLEANFILES  = src/JsonLexer.cpp \
 						src/location.hh \
 						src/position.hh \
 						src/stack.hh
-						
+
+src/JsonLexer.fpp: src/JsonParser.cpp						
 src/JsonLexer.cpp: src/JsonLexer.fpp
 	$(AM_V_GEN) $(FLEX) $(LEXFLAGS) -o $@ $^
 
