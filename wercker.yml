@@ -2,7 +2,7 @@ box: rioki/gcc-cpp
 build:
   steps:
     - install-packages:
-        packages: git
+        packages: git bison flex
     - script:
         name: get rtest
         code: git clone https://github.com/rioki/rtest.git
