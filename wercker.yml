@@ -2,7 +2,13 @@ box: rioki/gcc-cpp
 build:
   steps:
     - install-packages:
-        packages: git bison flex
+        packages: git flex wget
+    - script:
+        name: get bison 3.0
+        code: wget http://ftp.gnu.org/gnu/bison/bison-3.0.tar.gz && tar -xzf bison-3.0.tar.gz 
+    - script: 
+        name: build bison 3.0
+        code: cd bison-3.0 && sh configure && make && sudo make install    
     - script:
         name: get rtest
         code: git clone https://github.com/rioki/rtest.git
