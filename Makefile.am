@@ -14,6 +14,7 @@ noinst_HEADERS        = src/JsonLexer.h \
 
 lib_LTLIBRARIES       = librjson.la
                     
+librjson_la_CXXFLAGS  = -Iinclude                    
 librjson_la_LDFLAGS   = -no-undefined -version-info 0:0:0
 librjson_la_SOURCES   = src/JsonLexer.cpp \
                         src/JsonParser.cpp \
