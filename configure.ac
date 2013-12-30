@@ -3,7 +3,7 @@ AC_INIT([rjson], [0.1.0], [https://github.com/rioki/rjson/issues])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CANONICAL_HOST
 
-AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
+AM_INIT_AUTOMAKE([-Wall foreign subdir-objects])
 AM_SILENT_RULES([yes])
 AM_PROG_AR
 

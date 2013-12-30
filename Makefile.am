@@ -1,6 +1,7 @@
 
 ACLOCAL_AMFLAGS       = -I m4
 
+CPPFLAGS             := -Iinclude $(CPPFLAGS)
 include_HEADERS       = include/rjson.h
 
 pkgconfigdir 		  = $(libdir)/pkgconfig
@@ -14,7 +15,6 @@ noinst_HEADERS        = src/JsonLexer.h \
 
 lib_LTLIBRARIES       = librjson.la
                     
-librjson_la_CXXFLAGS  = -Iinclude                    
 librjson_la_LDFLAGS   = -no-undefined -version-info 0:0:0
 librjson_la_SOURCES   = src/JsonLexer.cpp \
                         src/JsonParser.cpp \
@@ -24,7 +24,6 @@ librjson_la_SOURCES   = src/JsonLexer.cpp \
 check_PROGRAMS        = rjson-test
 TESTS                 = rjson-test
 
-rjson_test_CXXFLAGS   = -Iinclude
 rjson_test_LDADD      = librjson.la @TEST_LIBS@
 rjson_test_SOURCES    = test/array.cpp \
                         test/object.cpp \
