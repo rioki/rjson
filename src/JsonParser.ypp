@@ -120,7 +120,7 @@ elements:
     } |
     value "," elements {
         $$ = $3;
-        $$->push_back(*$1);
+        $$->push_front(*$1);
         delete $1;
     };
     

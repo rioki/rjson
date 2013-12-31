@@ -3,7 +3,7 @@
 #define _RJSON_H_
 
 #include <string>
-#include <vector>
+#include <deque>
 #include <map>
 #include <iosfwd>
 #include <stdexcept>
@@ -24,7 +24,7 @@ namespace rjson
     
     // MAYBE use clases instead of typedef so a new type is created for type resolution
     
-    typedef std::vector<Value> Array;
+    typedef std::deque<Value> Array;
     //class Array : public std::vector<Value> {}:
     
     typedef std::map<std::string, Value> Object;
