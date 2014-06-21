@@ -82,8 +82,8 @@ The above code will output:
       "to": "world"
     }
 
-Building
---------
+Building (POSIX)
+----------------
 
 To build rjson you need a C++ compiter (e.g. gcc), make, bison and flex. These 
 are things you should have lying around anyway. 
@@ -116,46 +116,7 @@ As with the `install target you can specify the `prefix` variable.
 Building (Visual Studio)
 ------------------------
 
-Building under Visual Studio is not actively supported, but should work with 
-little extra effort. (Tested with Visual Studio 2010.)
-
-First you need bison and flex. Although you can get bison and flex standalone for
-windows (e.g. [though MinGW32][1]), I strongly advise to install MinGW32 with 
-MSys and the MSys-Developer Tool Kit. This can easily be done with the automated
-installer [mingw-get]. (You need mingw32-base, msys-base and msys-developer-toolkit)
-
-Now that you have bison and flex, you need to generate the lexer and parser. 
-To do that you either open cmd window or WinGW Shell (bash). 
-
-    cd <location of rjson>
-    cd src
-    flex -o JsonLexer.cpp JsonLexer.fpp
-    bison -o JsonParser.cpp JsonParser.ypp
-    
-This will create a two source files and a bunch of header files. 
-
-As a final step you need to copy the FlexLexer.h file to the src folder. This 
-file is located where you installed mingw32, for example `C:\MinGW\msys\1.0\include\FlexLexer.h`
-
-Now that all source code is generated and in one place you can move onto vanilla 
-Visual Studio. 
-
-The first step is to create a "Win32 Console Application" project and it should 
-be a "Static Library" without "recompiled Headers" and obviously no "MFC".
-
-For the second step you remove all sources, if any. 
-
-The third is to add all sources under `src` to the project. If you want you can
-also add `rjson.h` that is located under the include folder.
-
-The fourth and final step in creating the project is, you need to fix the include
-locations. In the project properties, you change the value of "C/C++ > General >
-Additional Include Directories" to "include;src".
-
-This is it, you can now build rjson under Visual Studio.
-
-[1]: http://sourceforge.net/projects/mingw/files/MSYS/Extension/
-[mingw-get]: https://sourceforge.net/projects/mingw/files/latest/download 
+The project contains VS2013 build configuration for 32 and 64 Bit builds. 
 
 Reference
 ---------
