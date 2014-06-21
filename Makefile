@@ -2,7 +2,7 @@
 VERSION  := 0.1.0
 
 CXX      ?= g++ 
-CXXFLAGS := -std=c++0x -Iinclude -Icontrib $(CXXFLAGS)
+CXXFLAGS := -std=c++0x -Iinclude -Icontrib -fPIC $(CXXFLAGS)
 LDFLAGS  += 
 FLEX     ?= flex
 BISON    ?= bison
@@ -26,9 +26,9 @@ endif
  
 .PHONY: all check clean install uninstall dist
  
-all: rjson$(LIBEXT)
+all: librjson$(LIBEXT)
  
-rjson$(LIBEXT): $(patsubst %.cpp, .obj/%.o, $(SOURCES))
+librjson$(LIBEXT): $(patsubst %.cpp, .obj/%.o, $(SOURCES))
 	$(CXX) -shared -fPIC $(CXXFLAGS) $(LDFLAGS) $^ -o $@
  
 check: rjson-test$(EXEEXT)	
@@ -50,17 +50,17 @@ install: rjson$(LIBEXT)
 	mkdir -p $(prefix)/include/rjson
 	cp $(HEADERS) $(prefix)/include/rjson
 	mkdir -p $(prefix)/lib
-	cp rjson$(LIBEXT) $(prefix)/lib
+	cp librjson$(LIBEXT) $(prefix)/lib
 ifeq ($(OS), Windows_NT)
 	mkdir -p $(prefix)/bin
-	cp rjson$(LIBEXT) $(prefix)/bin
+	cp librjson$(LIBEXT) $(prefix)/bin
 endif	
  
 uninstall:
 	rm -r $(prefix)/include/rjson
-	rm $(prefix)/lib/rjson$(LIBEXT)
+	rm $(prefix)/lib/librjson$(LIBEXT)
 ifeq ($(OS), Windows_NT)
-	rm $(prefix)/bin/rjson$(LIBEXT)
+	rm $(prefix)/bin/librjson$(LIBEXT)
 endif	
  
 .obj/%.o : %.cpp
