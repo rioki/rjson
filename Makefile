@@ -33,7 +33,7 @@ librjson$(LIBEXT): $(patsubst %.cpp, .obj/%.o, $(SOURCES))
 	$(CXX) -shared -fPIC $(CXXFLAGS) $(LDFLAGS) $^ -o $@
  
 check: rjson-test$(EXEEXT)	
-	cd test && ../rjson-test$(EXEEXT)
+	cd test && LD_LIBRARY_PATH=.. ../rjson-test$(EXEEXT)
  
 rjson-test$(EXEEXT): $(patsubst %.cpp, .obj/%.o, $(TESTSRCS)) librjson$(LIBEXT)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -lrtest -o $@
