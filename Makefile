@@ -2,16 +2,16 @@
 VERSION  := 0.1.0
 
 CXX      ?= g++ 
-CXXFLAGS := -std=c++0x -Iinclude -Icontrib -fPIC $(CXXFLAGS)
+CXXFLAGS := -std=c++0x -Iinclude -fPIC $(CXXFLAGS)
 LDFLAGS  += 
 FLEX     ?= flex
 BISON    ?= bison
 prefix   ?= /usr/local
  
 HEADERS    = $(wildcard include/*.h)
-PRIVHDRS   = $(wildcard rjson/*.h) $(wildcard rjson/*.hpp) $(wildcard rjson/*.hh) $(wildcard contrib/include/*.h)
+PRIVHDRS   = $(wildcard rjson/*.h) $(wildcard rjson/*.hpp) $(wildcard rjson/*.hh)
 SOURCES    = $(wildcard rjson/*.cpp)
-TESTSRCS   = $(wildcard test/*.cpp) contrib/src/rtest.cpp
+TESTSRCS   = $(wildcard test/*.cpp)
 
 EXTRA_DIST = Makefile README.md rjson/JsonLexer.fpp rjson/JsonParser.ypp test/package.json
 DIST_FILES = $(HEADERS) $(SOURCES) $(TESTSRCS) $(PRIVHDRS) $(EXTRA_DIST)
