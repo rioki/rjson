@@ -4,3 +4,6 @@ Win32
 *.suo
 *.sdf
 *.opensdf
+.obj
+rjson-test.exe
+rjson.dll

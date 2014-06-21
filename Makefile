@@ -2,7 +2,7 @@
 VERSION  := 0.1.0
 
 CXX      ?= g++ 
-CXXFLAGS := -std=c++11 -Iinclude -Icontrib $(CXXFLAGS)
+CXXFLAGS := -std=c++0x -Iinclude -Icontrib $(CXXFLAGS)
 LDFLAGS  += 
 FLEX     ?= flex
 BISON    ?= bison
