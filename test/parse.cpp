@@ -9,7 +9,7 @@ SUITE(parse)
 {
     TEST(initial)
     {
-        std::ifstream input("test/package.json");
+        std::ifstream input("package.json");
         CHECK(input.good());
         
         rjson::Value value;
@@ -20,7 +20,7 @@ SUITE(parse)
         
         rjson::Object object = value;
                 
-        CHECK_EQUAL("http-server", (const char*)object["name"]);
+        CHECK_EQUAL("http-server", (std::string)object["name"]);
     }
     
     TEST(numbers) 

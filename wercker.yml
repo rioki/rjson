@@ -8,22 +8,10 @@ build:
         code: wget http://ftp.gnu.org/gnu/bison/bison-3.0.tar.gz && tar -xzf bison-3.0.tar.gz 
     - script: 
         name: build bison 3.0
-        code: cd bison-3.0 && sh configure && make && sudo make install    
-    - script:
-        name: get rtest
-        code: git clone https://github.com/rioki/rtest.git
-    - script: 
-        name: build rtest
-        code: cd rtest && make && sudo make install    
+        code: cd bison-3.0 && sh configure && make && sudo make install  
     - script:
         name: ldconfig
         code: sudo ldconfig
-    - script:    
-        name: autogen
-        code: sh autogen.sh
-    - script:
-        name: configure
-        code: sh configure
     - script:    
         name: make
         code: make

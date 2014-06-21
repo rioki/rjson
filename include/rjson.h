@@ -1,3 +1,25 @@
+//
+// Copyright (c) 2013-2014 Sean Farrell <sean.farrell@rioki.org>
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+//
+
 
 #ifndef _RJSON_H_
 #define _RJSON_H_
@@ -7,6 +29,12 @@
 #include <map>
 #include <iosfwd>
 #include <stdexcept>
+
+#ifdef _MSC_VER
+#define EXPORT __declspec(dllexport)
+#else
+#define EXPORT 
+#endif
 
 namespace rjson
 {
@@ -42,7 +70,7 @@ namespace rjson
         : std::runtime_error(msg) {}
     };
     
-    class Value
+	class EXPORT Value
     {
     public:
     
@@ -112,8 +140,6 @@ namespace rjson
         
         operator double () const;
         
-        operator const char* () const;
-        
         operator std::string () const;
         
         operator const Array& () const;
@@ -135,15 +161,15 @@ namespace rjson
         void copy(const Value& orig);
     };
     
-    std::ostream& operator << (std::ostream& os, Type t);
-    std::ostream& operator << (std::ostream& os, const Value& v);
-    std::ostream& operator << (std::ostream& os, const Array& a);
-    std::ostream& operator << (std::ostream& os, const Object& o);
+	EXPORT std::ostream& operator << (std::ostream& os, Type t);
+	EXPORT std::ostream& operator << (std::ostream& os, const Value& v);
+	EXPORT std::ostream& operator << (std::ostream& os, const Array& a);
+	EXPORT std::ostream& operator << (std::ostream& os, const Object& o);
     
-    std::istream& operator >> (std::istream& is, Type& t);
-    std::istream& operator >> (std::istream& is, Value& t);
-    std::istream& operator >> (std::istream& is, Array& a);
-    std::istream& operator >> (std::istream& is, Object& o);
+	EXPORT std::istream& operator >> (std::istream& is, Type& t);
+	EXPORT std::istream& operator >> (std::istream& is, Value& t);
+	EXPORT std::istream& operator >> (std::istream& is, Array& a);
+	EXPORT std::istream& operator >> (std::istream& is, Object& o);
 }
 
 #endif

@@ -134,7 +134,7 @@ namespace rjson
                 os << (double)value;
                 break;
             case TYPE_STRING:
-                print_escaped(os, (const char*)value);
+                print_escaped(os, ((std::string)value).c_str());
                 break;
             case TYPE_ARRAY:
                 write(os, spaces, level, (const Array&)value);                

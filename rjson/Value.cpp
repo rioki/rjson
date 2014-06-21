@@ -277,20 +277,6 @@ namespace rjson
         }
     }
     
-    Value::operator const char* () const
-    {
-        if (type == TYPE_STRING)
-        {
-            return stringValue;
-        }
-        else
-        {
-            std::stringstream buff;
-            buff << "Invalid type: requesting STRING, but type is " << type << "!";
-            throw InvalidType(buff.str());
-        }
-    }
-    
     Value::operator std::string () const
     {
         if (type == TYPE_STRING)

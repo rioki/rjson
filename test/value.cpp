@@ -105,15 +105,7 @@ SUITE(value)
         CHECK_EQUAL(ref, (double)value);
     }
     
-    TEST(string1)
-    {
-        rjson::Value value("Test");
-        CHECK_EQUAL(rjson::TYPE_STRING, value.get_type());
-        const char* v = value;
-        CHECK_EQUAL("Test", v);
-    }
-    
-    TEST(string2)
+    TEST(string)
     {
         std::string ref = "Test";
         rjson::Value value(ref);
