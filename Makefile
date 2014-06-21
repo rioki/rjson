@@ -2,7 +2,7 @@
 VERSION  := 0.1.0
 
 CXX      ?= g++ 
-CXXFLAGS := -std=c++0x -Iinclude -fPIC $(CXXFLAGS)
+CXXFLAGS := -std=c++0x -Iinclude $(CXXFLAGS)
 LDFLAGS  += 
 FLEX     ?= flex
 BISON    ?= bison
@@ -18,10 +18,11 @@ DIST_FILES = $(HEADERS) $(SOURCES) $(TESTSRCS) $(PRIVHDRS) $(EXTRA_DIST)
  
 ifeq ($(OS), Windows_NT)
   EXEEXT    = .exe  
-  LIBEXT    = .dll
+  LIBEXT    = .dll  
 else
   EXEEXT    =
-  LIBEXT    = .so  
+  LIBEXT    = .so 
+  CXXFLAGS += -fPIC  
 endif
  
 .PHONY: all check clean install uninstall dist
@@ -34,8 +35,8 @@ librjson$(LIBEXT): $(patsubst %.cpp, .obj/%.o, $(SOURCES))
 check: rjson-test$(EXEEXT)	
 	cd test && ../rjson-test$(EXEEXT)
  
-rjson-test$(EXEEXT): $(patsubst %.cpp, .obj/%.o, $(TESTSRCS)) rjson$(LIBEXT)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ $(test_libs) -o $@
+rjson-test$(EXEEXT): $(patsubst %.cpp, .obj/%.o, $(TESTSRCS)) librjson$(LIBEXT)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -lrtest -o $@
  
 clean: 
 	rm -rf .obj rjson$(LIBEXT) rjson-test$(EXEEXT)	
