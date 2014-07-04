@@ -8,3 +8,4 @@ Win32
 rjson-test.exe
 rjson.dll
 librjson.dll
+*.a
