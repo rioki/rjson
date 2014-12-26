@@ -91,7 +91,7 @@ namespace rtest
             {                                                         
                 std::stringstream buff;                                                               
                 buff << scond << " failed.";  
-				throw ::rtest::impl::Failure(file, line, buff.str());
+                throw ::rtest::impl::Failure(file, line, buff.str());
             }
         }
         
