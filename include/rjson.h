@@ -70,7 +70,7 @@ namespace rjson
         : std::runtime_error(msg) {}
     };
     
-	class EXPORT Value
+    class EXPORT Value
     {
     public:
     
@@ -161,15 +161,15 @@ namespace rjson
         void copy(const Value& orig);
     };
     
-	EXPORT std::ostream& operator << (std::ostream& os, Type t);
-	EXPORT std::ostream& operator << (std::ostream& os, const Value& v);
-	EXPORT std::ostream& operator << (std::ostream& os, const Array& a);
-	EXPORT std::ostream& operator << (std::ostream& os, const Object& o);
+    EXPORT std::ostream& operator << (std::ostream& os, Type t);
+    EXPORT std::ostream& operator << (std::ostream& os, const Value& v);
+    EXPORT std::ostream& operator << (std::ostream& os, const Array& a);
+    EXPORT std::ostream& operator << (std::ostream& os, const Object& o);
     
-	EXPORT std::istream& operator >> (std::istream& is, Type& t);
-	EXPORT std::istream& operator >> (std::istream& is, Value& t);
-	EXPORT std::istream& operator >> (std::istream& is, Array& a);
-	EXPORT std::istream& operator >> (std::istream& is, Object& o);
+    EXPORT std::istream& operator >> (std::istream& is, Type& t);
+    EXPORT std::istream& operator >> (std::istream& is, Value& t);
+    EXPORT std::istream& operator >> (std::istream& is, Array& a);
+    EXPORT std::istream& operator >> (std::istream& is, Object& o);
 }
 
 #endif
