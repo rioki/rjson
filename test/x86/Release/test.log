@@ -1,0 +1,12 @@
+﻿  rtest.cpp
+  array.cpp
+  main.cpp
+  object.cpp
+  parse.cpp
+  value.cpp
+  write.cpp
+  Generating code
+  All 676 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  test.vcxproj -> E:\Development\libs\rjson\\x86\Release\test.exe
+  28 of 28 tests succeded.
