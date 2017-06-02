@@ -2,8 +2,6 @@
 Rioki's JSON Library
 ==================
 
-[![wercker status](https://app.wercker.com/status/a886d8f1173ec97a5ae3bc7121b27290/m "wercker status")](https://app.wercker.com/project/bykey/a886d8f1173ec97a5ae3bc7121b27290)
-
 This library implements JSON serialisation for C++.
 
 Examples
