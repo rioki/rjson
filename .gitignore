@@ -1,9 +1,6 @@
-*.suo
-*.sdf
-*.opensdf
+x64
+x86
+.vs
 .obj
 rjson-test.exe
 rjson.dll
-librjson.dll
-Win32
-x64
