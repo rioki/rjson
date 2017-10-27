@@ -39,9 +39,9 @@ class JsonLexer;
 %token              END 0           "end of file"
 %token              ERROR           "lexing error"
 
-%token <value>      _NULL           "null"
-%token <value>      TRUE            "true"
-%token <value>      FALSE           "false"
+%token <value>      TK_NULL         "null"
+%token <value>      TK_TRUE         "true"
+%token <value>      TK_FALSE        "false"
 %token <value>      NUMBER          "number"
 %token <value>      STRING          "string"
 
@@ -139,13 +139,13 @@ value:
     NUMBER {
         $$ = $1;
     } |    
-    TRUE {
+    TK_TRUE {
         $$ = $1;
     } |
-    FALSE {
+    TK_FALSE {
         $$ = $1;
     } |
-    _NULL {
+    TK_NULL {
         $$ = $1;
     };
 

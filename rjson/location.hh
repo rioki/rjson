@@ -1,8 +1,8 @@
-// A Bison parser, made by GNU Bison 3.0.
+// A Bison parser, made by GNU Bison 3.0.4.
 
 // Locations for Bison parsers in C++
 
-// Copyright (C) 2002-2013 Free Software Foundation, Inc.
+// Copyright (C) 2002-2015 Free Software Foundation, Inc.
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,18 +31,18 @@
 // version 2.2 of Bison.
 
 /**
- ** \file location.hh
+ ** \file rjson/location.hh
  ** Define the rjson::location class.
  */
 
-#ifndef YY_YY_LOCATION_HH_INCLUDED
-# define YY_YY_LOCATION_HH_INCLUDED
+#ifndef YY_YY_RJSON_LOCATION_HH_INCLUDED
+# define YY_YY_RJSON_LOCATION_HH_INCLUDED
 
 # include "position.hh"
 
-#line 4 "JsonParser.ypp" // location.cc:291
+#line 4 "rjson/JsonParser.ypp" // location.cc:296
 namespace rjson {
-#line 46 "location.hh" // location.cc:291
+#line 46 "rjson/location.hh" // location.cc:296
   /// Abstract a location.
   class location
   {
@@ -73,7 +73,7 @@ namespace rjson {
 
 
     /// Initialization.
-    void initialize (std::string* f = YY_NULL,
+    void initialize (std::string* f = YY_NULLPTR,
                      unsigned int l = 1u,
                      unsigned int c = 1u)
     {
@@ -111,36 +111,42 @@ namespace rjson {
     position end;
   };
 
-  /// Join two location objects to create a location.
-  inline location operator+ (location res, const location& end)
+  /// Join two locations, in place.
+  inline location& operator+= (location& res, const location& end)
   {
     res.end = end.end;
     return res;
   }
 
-  /// Change end position in place.
+  /// Join two locations.
+  inline location operator+ (location res, const location& end)
+  {
+    return res += end;
+  }
+
+  /// Add \a width columns to the end position, in place.
   inline location& operator+= (location& res, int width)
   {
     res.columns (width);
     return res;
   }
 
-  /// Change end position.
+  /// Add \a width columns to the end position.
   inline location operator+ (location res, int width)
   {
     return res += width;
   }
 
-  /// Change end position in place.
+  /// Subtract \a width columns to the end position, in place.
   inline location& operator-= (location& res, int width)
   {
     return res += -width;
   }
 
-  /// Change end position.
-  inline location operator- (const location& begin, int width)
+  /// Subtract \a width columns to the end position.
+  inline location operator- (location res, int width)
   {
-    return begin + -width;
+    return res -= width;
   }
 
   /// Compare two location objects.
@@ -168,8 +174,7 @@ namespace rjson {
   operator<< (std::basic_ostream<YYChar>& ostr, const location& loc)
   {
     unsigned int end_col = 0 < loc.end.column ? loc.end.column - 1 : 0;
-    ostr << loc.begin// << "(" << loc.end << ") "
-;
+    ostr << loc.begin;
     if (loc.end.filename
         && (!loc.begin.filename
             || *loc.begin.filename != *loc.end.filename))
@@ -181,7 +186,7 @@ namespace rjson {
     return ostr;
   }
 
-#line 4 "JsonParser.ypp" // location.cc:291
+#line 4 "rjson/JsonParser.ypp" // location.cc:296
 } // rjson
-#line 187 "location.hh" // location.cc:291
-#endif // !YY_YY_LOCATION_HH_INCLUDED
+#line 192 "rjson/location.hh" // location.cc:296
+#endif // !YY_YY_RJSON_LOCATION_HH_INCLUDED

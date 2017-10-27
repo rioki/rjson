@@ -1,8 +1,8 @@
-// A Bison parser, made by GNU Bison 3.0.
+// A Bison parser, made by GNU Bison 3.0.4.
 
 // Skeleton implementation for Bison LALR(1) parsers in C++
 
-// Copyright (C) 2002-2013 Free Software Foundation, Inc.
+// Copyright (C) 2002-2015 Free Software Foundation, Inc.
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,26 +33,26 @@
 
 // First part of user declarations.
 
-#line 37 "JsonParser.cpp" // lalr1.cc:398
+#line 37 "rjson/JsonParser.cpp" // lalr1.cc:404
 
-# ifndef YY_NULL
+# ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
-#   define YY_NULL nullptr
+#   define YY_NULLPTR nullptr
 #  else
-#   define YY_NULL 0
+#   define YY_NULLPTR 0
 #  endif
 # endif
 
 #include "JsonParser.hpp"
 
 // User implementation prologue.
-#line 65 "JsonParser.ypp" // lalr1.cc:406
+#line 65 "rjson/JsonParser.ypp" // lalr1.cc:412
 
 int yylex(rjson::parser::semantic_type* yylval, rjson::parser::location_type* yylloc, JsonLexer& lex);
 
 #include "JsonLexer.h"
 
-#line 56 "JsonParser.cpp" // lalr1.cc:406
+#line 56 "rjson/JsonParser.cpp" // lalr1.cc:412
 
 
 #ifndef YY_
@@ -129,16 +129,16 @@ int yylex(rjson::parser::semantic_type* yylval, rjson::parser::location_type* yy
 #endif // !YYDEBUG
 
 #define yyerrok         (yyerrstatus_ = 0)
-#define yyclearin       (yyempty = true)
+#define yyclearin       (yyla.clear ())
 
 #define YYACCEPT        goto yyacceptlab
 #define YYABORT         goto yyabortlab
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-#line 4 "JsonParser.ypp" // lalr1.cc:473
+#line 4 "rjson/JsonParser.ypp" // lalr1.cc:479
 namespace rjson {
-#line 142 "JsonParser.cpp" // lalr1.cc:473
+#line 142 "rjson/JsonParser.cpp" // lalr1.cc:479
 
   /* Return YYSTR after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
@@ -245,6 +245,23 @@ namespace rjson {
   inline
   parser::basic_symbol<Base>::~basic_symbol ()
   {
+    clear ();
+  }
+
+  template <typename Base>
+  inline
+  void
+  parser::basic_symbol<Base>::clear ()
+  {
+    Base::clear ();
+  }
+
+  template <typename Base>
+  inline
+  bool
+  parser::basic_symbol<Base>::empty () const
+  {
+    return Base::type_get () == empty_symbol;
   }
 
   template <typename Base>
@@ -260,7 +277,7 @@ namespace rjson {
   // by_type.
   inline
   parser::by_type::by_type ()
-     : type (empty)
+    : type (empty_symbol)
   {}
 
   inline
@@ -275,10 +292,17 @@ namespace rjson {
 
   inline
   void
+  parser::by_type::clear ()
+  {
+    type = empty_symbol;
+  }
+
+  inline
+  void
   parser::by_type::move (by_type& that)
   {
     type = that.type;
-    that.type = empty;
+    that.clear ();
   }
 
   inline
@@ -292,7 +316,7 @@ namespace rjson {
   // by_state.
   inline
   parser::by_state::by_state ()
-    : state (empty)
+    : state (empty_state)
   {}
 
   inline
@@ -302,10 +326,17 @@ namespace rjson {
 
   inline
   void
+  parser::by_state::clear ()
+  {
+    state = empty_state;
+  }
+
+  inline
+  void
   parser::by_state::move (by_state& that)
   {
     state = that.state;
-    that.state = empty;
+    that.clear ();
   }
 
   inline
@@ -317,7 +348,10 @@ namespace rjson {
   parser::symbol_number_type
   parser::by_state::type_get () const
   {
-    return state == empty ? 0 : yystos_[state];
+    if (state == empty_state)
+      return empty_symbol;
+    else
+      return yystos_[state];
   }
 
   inline
@@ -331,7 +365,7 @@ namespace rjson {
   {
     value = that.value;
     // that is emptied.
-    that.type = empty;
+    that.type = empty_symbol;
   }
 
   inline
@@ -358,72 +392,72 @@ namespace rjson {
     {
             case 4: // "null"
 
-#line 61 "JsonParser.ypp" // lalr1.cc:598
+#line 61 "rjson/JsonParser.ypp" // lalr1.cc:614
         { delete (yysym.value.value); }
-#line 364 "JsonParser.cpp" // lalr1.cc:598
+#line 398 "rjson/JsonParser.cpp" // lalr1.cc:614
         break;
 
       case 5: // "true"
 
-#line 61 "JsonParser.ypp" // lalr1.cc:598
+#line 61 "rjson/JsonParser.ypp" // lalr1.cc:614
         { delete (yysym.value.value); }
-#line 371 "JsonParser.cpp" // lalr1.cc:598
+#line 405 "rjson/JsonParser.cpp" // lalr1.cc:614
         break;
 
       case 6: // "false"
 
-#line 61 "JsonParser.ypp" // lalr1.cc:598
+#line 61 "rjson/JsonParser.ypp" // lalr1.cc:614
         { delete (yysym.value.value); }
-#line 378 "JsonParser.cpp" // lalr1.cc:598
+#line 412 "rjson/JsonParser.cpp" // lalr1.cc:614
         break;
 
       case 7: // "number"
 
-#line 61 "JsonParser.ypp" // lalr1.cc:598
+#line 61 "rjson/JsonParser.ypp" // lalr1.cc:614
         { delete (yysym.value.value); }
-#line 385 "JsonParser.cpp" // lalr1.cc:598
+#line 419 "rjson/JsonParser.cpp" // lalr1.cc:614
         break;
 
       case 8: // "string"
 
-#line 61 "JsonParser.ypp" // lalr1.cc:598
+#line 61 "rjson/JsonParser.ypp" // lalr1.cc:614
         { delete (yysym.value.value); }
-#line 392 "JsonParser.cpp" // lalr1.cc:598
+#line 426 "rjson/JsonParser.cpp" // lalr1.cc:614
         break;
 
       case 17: // object
 
-#line 62 "JsonParser.ypp" // lalr1.cc:598
+#line 62 "rjson/JsonParser.ypp" // lalr1.cc:614
         { delete (yysym.value.object); }
-#line 399 "JsonParser.cpp" // lalr1.cc:598
+#line 433 "rjson/JsonParser.cpp" // lalr1.cc:614
         break;
 
       case 18: // members
 
-#line 62 "JsonParser.ypp" // lalr1.cc:598
+#line 62 "rjson/JsonParser.ypp" // lalr1.cc:614
         { delete (yysym.value.object); }
-#line 406 "JsonParser.cpp" // lalr1.cc:598
+#line 440 "rjson/JsonParser.cpp" // lalr1.cc:614
         break;
 
       case 19: // array
 
-#line 63 "JsonParser.ypp" // lalr1.cc:598
+#line 63 "rjson/JsonParser.ypp" // lalr1.cc:614
         { delete (yysym.value.array); }
-#line 413 "JsonParser.cpp" // lalr1.cc:598
+#line 447 "rjson/JsonParser.cpp" // lalr1.cc:614
         break;
 
       case 20: // elements
 
-#line 63 "JsonParser.ypp" // lalr1.cc:598
+#line 63 "rjson/JsonParser.ypp" // lalr1.cc:614
         { delete (yysym.value.array); }
-#line 420 "JsonParser.cpp" // lalr1.cc:598
+#line 454 "rjson/JsonParser.cpp" // lalr1.cc:614
         break;
 
       case 21: // value
 
-#line 61 "JsonParser.ypp" // lalr1.cc:598
+#line 61 "rjson/JsonParser.ypp" // lalr1.cc:614
         { delete (yysym.value.value); }
-#line 427 "JsonParser.cpp" // lalr1.cc:598
+#line 461 "rjson/JsonParser.cpp" // lalr1.cc:614
         break;
 
 
@@ -441,6 +475,10 @@ namespace rjson {
     std::ostream& yyoutput = yyo;
     YYUSE (yyoutput);
     symbol_number_type yytype = yysym.type_get ();
+    // Avoid a (spurious) G++ 4.8 warning about "array subscript is
+    // below array bounds".
+    if (yysym.empty ())
+      std::abort ();
     yyo << (yytype < yyntokens_ ? "token" : "nterm")
         << ' ' << yytname_[yytype] << " ("
         << yysym.location << ": ";
@@ -501,13 +539,13 @@ namespace rjson {
 #endif // YYDEBUG
 
   inline parser::state_type
-  parser::yy_lr_goto_state_ (state_type yystate, int yylhs)
+  parser::yy_lr_goto_state_ (state_type yystate, int yysym)
   {
-    int yyr = yypgoto_[yylhs - yyntokens_] + yystate;
+    int yyr = yypgoto_[yysym - yyntokens_] + yystate;
     if (0 <= yyr && yyr <= yylast_ && yycheck_[yyr] == yystate)
       return yytable_[yyr];
     else
-      return yydefgoto_[yylhs - yyntokens_];
+      return yydefgoto_[yysym - yyntokens_];
   }
 
   inline bool
@@ -525,11 +563,9 @@ namespace rjson {
   int
   parser::parse ()
   {
-    /// Whether yyla contains a lookahead.
-    bool yyempty = true;
-
     // State.
     int yyn;
+    /// Length of the RHS of the rule being reduced.
     int yylen = 0;
 
     // Error handling.
@@ -542,9 +578,6 @@ namespace rjson {
     /// The locations where the error started and ended.
     stack_symbol_type yyerror_range[3];
 
-    /// $$ and @$.
-    stack_symbol_type yylhs;
-
     /// The return value of parse ().
     int yyresult;
 
@@ -556,21 +589,21 @@ namespace rjson {
 
 
     // User initialization code.
-    #line 25 "JsonParser.ypp" // lalr1.cc:726
+    #line 25 "rjson/JsonParser.ypp" // lalr1.cc:741
 {
     // Initialize the initial location.
     yyla.location.begin.line = yyla.location.end.line = 1;
     yyla.location.begin.filename = yyla.location.end.filename = &filename;
 }
 
-#line 567 "JsonParser.cpp" // lalr1.cc:726
+#line 600 "rjson/JsonParser.cpp" // lalr1.cc:741
 
     /* Initialize the stack.  The initial state will be set in
        yynewstate, since the latter expects the semantical and the
        location values to have been already stored, initialize these
        stacks with a primary value.  */
     yystack_.clear ();
-    yypush_ (YY_NULL, 0, yyla);
+    yypush_ (YY_NULLPTR, 0, yyla);
 
     // A new symbol was pushed on the stack.
   yynewstate:
@@ -591,7 +624,7 @@ namespace rjson {
       goto yydefault;
 
     // Read a lookahead token.
-    if (yyempty)
+    if (yyla.empty ())
       {
         YYCDEBUG << "Reading a token: ";
         try
@@ -603,7 +636,6 @@ namespace rjson {
             error (yyexc);
             goto yyerrlab1;
           }
-        yyempty = false;
       }
     YY_SYMBOL_PRINT ("Next token is", yyla);
 
@@ -622,9 +654,6 @@ namespace rjson {
         yyn = -yyn;
         goto yyreduce;
       }
-
-    // Discard the token being shifted.
-    yyempty = true;
 
     // Count tokens shifted since error; after three, turn off error status.
     if (yyerrstatus_)
@@ -648,66 +677,68 @@ namespace rjson {
   `-----------------------------*/
   yyreduce:
     yylen = yyr2_[yyn];
-    yylhs.state = yy_lr_goto_state_(yystack_[yylen].state, yyr1_[yyn]);
-    /* If YYLEN is nonzero, implement the default value of the action:
-       '$$ = $1'.  Otherwise, use the top of the stack.
-
-       Otherwise, the following line sets YYLHS.VALUE to garbage.
-       This behavior is undocumented and Bison
-       users should not rely upon it.  */
-    if (yylen)
-      yylhs.value = yystack_[yylen - 1].value;
-    else
-      yylhs.value = yystack_[0].value;
-
-    // Compute the default @$.
     {
-      slice<stack_symbol_type, stack_type> slice (yystack_, yylen);
-      YYLLOC_DEFAULT (yylhs.location, slice, yylen);
-    }
+      stack_symbol_type yylhs;
+      yylhs.state = yy_lr_goto_state_(yystack_[yylen].state, yyr1_[yyn]);
+      /* If YYLEN is nonzero, implement the default value of the
+         action: '$$ = $1'.  Otherwise, use the top of the stack.
 
-    // Perform the reduction.
-    YY_REDUCE_PRINT (yyn);
-    try
+         Otherwise, the following line sets YYLHS.VALUE to garbage.
+         This behavior is undocumented and Bison users should not rely
+         upon it.  */
+      if (yylen)
+        yylhs.value = yystack_[yylen - 1].value;
+      else
+        yylhs.value = yystack_[0].value;
+
+      // Compute the default @$.
       {
-        switch (yyn)
-          {
+        slice<stack_symbol_type, stack_type> slice (yystack_, yylen);
+        YYLLOC_DEFAULT (yylhs.location, slice, yylen);
+      }
+
+      // Perform the reduction.
+      YY_REDUCE_PRINT (yyn);
+      try
+        {
+          switch (yyn)
+            {
   case 2:
-#line 74 "JsonParser.ypp" // lalr1.cc:846
+#line 74 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         value = rjson::Value(*(yystack_[0].value.object));
         delete (yystack_[0].value.object);
     }
-#line 682 "JsonParser.cpp" // lalr1.cc:846
+#line 713 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 3:
-#line 78 "JsonParser.ypp" // lalr1.cc:846
+#line 78 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         value = rjson::Value(*(yystack_[0].value.array));
         delete (yystack_[0].value.array);
     }
-#line 691 "JsonParser.cpp" // lalr1.cc:846
+#line 722 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 4:
-#line 84 "JsonParser.ypp" // lalr1.cc:846
+#line 84 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.object) = new rjson::Object;
     }
-#line 699 "JsonParser.cpp" // lalr1.cc:846
+#line 730 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 5:
-#line 87 "JsonParser.ypp" // lalr1.cc:846
+#line 87 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.object) = (yystack_[1].value.object);
     }
-#line 707 "JsonParser.cpp" // lalr1.cc:846
+#line 738 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 6:
-#line 92 "JsonParser.ypp" // lalr1.cc:846
+#line 92 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.object) = new rjson::Object;
         std::string key = *(yystack_[2].value.value);
@@ -715,11 +746,11 @@ namespace rjson {
         delete (yystack_[2].value.value);
         delete (yystack_[0].value.value);
     }
-#line 719 "JsonParser.cpp" // lalr1.cc:846
+#line 750 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 7:
-#line 99 "JsonParser.ypp" // lalr1.cc:846
+#line 99 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.object) = (yystack_[0].value.object);
         std::string key = *(yystack_[4].value.value);
@@ -727,121 +758,122 @@ namespace rjson {
         delete (yystack_[4].value.value);
         delete (yystack_[2].value.value);
     }
-#line 731 "JsonParser.cpp" // lalr1.cc:846
+#line 762 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 8:
-#line 108 "JsonParser.ypp" // lalr1.cc:846
+#line 108 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.array) = new rjson::Array;
     }
-#line 739 "JsonParser.cpp" // lalr1.cc:846
+#line 770 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 9:
-#line 111 "JsonParser.ypp" // lalr1.cc:846
+#line 111 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.array) = (yystack_[1].value.array);
     }
-#line 747 "JsonParser.cpp" // lalr1.cc:846
+#line 778 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 10:
-#line 116 "JsonParser.ypp" // lalr1.cc:846
+#line 116 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.array) = new rjson::Array;
         (yylhs.value.array)->push_back(*(yystack_[0].value.value));
         delete (yystack_[0].value.value);
     }
-#line 757 "JsonParser.cpp" // lalr1.cc:846
+#line 788 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 11:
-#line 121 "JsonParser.ypp" // lalr1.cc:846
+#line 121 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.array) = (yystack_[0].value.array);
         (yylhs.value.array)->push_front(*(yystack_[2].value.value));
         delete (yystack_[2].value.value);
     }
-#line 767 "JsonParser.cpp" // lalr1.cc:846
+#line 798 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 12:
-#line 128 "JsonParser.ypp" // lalr1.cc:846
+#line 128 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.value) = new rjson::Value(*(yystack_[0].value.object));
         delete (yystack_[0].value.object);
     }
-#line 776 "JsonParser.cpp" // lalr1.cc:846
+#line 807 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 13:
-#line 132 "JsonParser.ypp" // lalr1.cc:846
+#line 132 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.value) = new rjson::Value(*(yystack_[0].value.array));
         delete (yystack_[0].value.array);
     }
-#line 785 "JsonParser.cpp" // lalr1.cc:846
+#line 816 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 14:
-#line 136 "JsonParser.ypp" // lalr1.cc:846
+#line 136 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.value) = (yystack_[0].value.value);
     }
-#line 793 "JsonParser.cpp" // lalr1.cc:846
+#line 824 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 15:
-#line 139 "JsonParser.ypp" // lalr1.cc:846
+#line 139 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.value) = (yystack_[0].value.value);
     }
-#line 801 "JsonParser.cpp" // lalr1.cc:846
+#line 832 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 16:
-#line 142 "JsonParser.ypp" // lalr1.cc:846
+#line 142 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.value) = (yystack_[0].value.value);
     }
-#line 809 "JsonParser.cpp" // lalr1.cc:846
+#line 840 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 17:
-#line 145 "JsonParser.ypp" // lalr1.cc:846
+#line 145 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.value) = (yystack_[0].value.value);
     }
-#line 817 "JsonParser.cpp" // lalr1.cc:846
+#line 848 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
   case 18:
-#line 148 "JsonParser.ypp" // lalr1.cc:846
+#line 148 "rjson/JsonParser.ypp" // lalr1.cc:859
     {
         (yylhs.value.value) = (yystack_[0].value.value);
     }
-#line 825 "JsonParser.cpp" // lalr1.cc:846
+#line 856 "rjson/JsonParser.cpp" // lalr1.cc:859
     break;
 
 
-#line 829 "JsonParser.cpp" // lalr1.cc:846
-          default:
-            break;
-          }
-      }
-    catch (const syntax_error& yyexc)
-      {
-        error (yyexc);
-        YYERROR;
-      }
-    YY_SYMBOL_PRINT ("-> $$ =", yylhs);
-    yypop_ (yylen);
-    yylen = 0;
-    YY_STACK_PRINT ();
+#line 860 "rjson/JsonParser.cpp" // lalr1.cc:859
+            default:
+              break;
+            }
+        }
+      catch (const syntax_error& yyexc)
+        {
+          error (yyexc);
+          YYERROR;
+        }
+      YY_SYMBOL_PRINT ("-> $$ =", yylhs);
+      yypop_ (yylen);
+      yylen = 0;
+      YY_STACK_PRINT ();
 
-    // Shift the result of the reduction.
-    yypush_ (YY_NULL, yylhs);
+      // Shift the result of the reduction.
+      yypush_ (YY_NULLPTR, yylhs);
+    }
     goto yynewstate;
 
   /*--------------------------------------.
@@ -852,8 +884,7 @@ namespace rjson {
     if (!yyerrstatus_)
       {
         ++yynerrs_;
-        error (yyla.location, yysyntax_error_ (yystack_[0].state,
-                                           yyempty ? yyempty_ : yyla.type_get ()));
+        error (yyla.location, yysyntax_error_ (yystack_[0].state, yyla));
       }
 
 
@@ -866,10 +897,10 @@ namespace rjson {
         // Return failure if at end of input.
         if (yyla.type_get () == yyeof_)
           YYABORT;
-        else if (!yyempty)
+        else if (!yyla.empty ())
           {
             yy_destroy_ ("Error: discarding", yyla);
-            yyempty = true;
+            yyla.clear ();
           }
       }
 
@@ -945,7 +976,7 @@ namespace rjson {
     goto yyreturn;
 
   yyreturn:
-    if (!yyempty)
+    if (!yyla.empty ())
       yy_destroy_ ("Cleanup: discarding lookahead", yyla);
 
     /* Do not reclaim the symbols of the rule whose action triggered
@@ -965,12 +996,12 @@ namespace rjson {
                  << std::endl;
         // Do not try to display the values of the reclaimed symbols,
         // as their printer might throw an exception.
-        if (!yyempty)
-          yy_destroy_ (YY_NULL, yyla);
+        if (!yyla.empty ())
+          yy_destroy_ (YY_NULLPTR, yyla);
 
         while (1 < yystack_.size ())
           {
-            yy_destroy_ (YY_NULL, yystack_[0]);
+            yy_destroy_ (YY_NULLPTR, yystack_[0]);
             yypop_ ();
           }
         throw;
@@ -985,9 +1016,8 @@ namespace rjson {
 
   // Generate an error message.
   std::string
-  parser::yysyntax_error_ (state_type yystate, symbol_number_type yytoken) const
+  parser::yysyntax_error_ (state_type yystate, const symbol_type& yyla) const
   {
-    std::string yyres;
     // Number of reported tokens (one for the "unexpected", one per
     // "expected").
     size_t yycount = 0;
@@ -1001,7 +1031,7 @@ namespace rjson {
          the only way this function was invoked is if the default action
          is an error action.  In that case, don't check for expected
          tokens because there are none.
-       - The only way there can be no lookahead present (in yytoken) is
+       - The only way there can be no lookahead present (in yyla) is
          if this state is a consistent state with a default action.
          Thus, detecting the absence of a lookahead is sufficient to
          determine that there is no unexpected or expected token to
@@ -1021,8 +1051,9 @@ namespace rjson {
          token that will not be accepted due to an error action in a
          later state.
     */
-    if (yytoken != yyempty_)
+    if (!yyla.empty ())
       {
+        int yytoken = yyla.type_get ();
         yyarg[yycount++] = yytname_[yytoken];
         int yyn = yypact_[yystate];
         if (!yy_pact_value_is_default_ (yyn))
@@ -1049,7 +1080,7 @@ namespace rjson {
           }
       }
 
-    char const* yyformat = YY_NULL;
+    char const* yyformat = YY_NULLPTR;
     switch (yycount)
       {
 #define YYCASE_(N, S)                         \
@@ -1065,6 +1096,7 @@ namespace rjson {
 #undef YYCASE_
       }
 
+    std::string yyres;
     // Argument number.
     size_t yyi = 0;
     for (char const* yyp = yyformat; *yyp; ++yyp)
@@ -1161,7 +1193,7 @@ namespace rjson {
   "\"end of file\"", "error", "$undefined", "\"lexing error\"",
   "\"null\"", "\"true\"", "\"false\"", "\"number\"", "\"string\"", "\"{\"",
   "\"}\"", "\"[\"", "\"]\"", "\",\"", "\":\"", "$accept", "json", "object",
-  "members", "array", "elements", "value", YY_NULL
+  "members", "array", "elements", "value", YY_NULLPTR
   };
 
 #if YYDEBUG
@@ -1249,10 +1281,10 @@ namespace rjson {
       return undef_token_;
   }
 
-#line 4 "JsonParser.ypp" // lalr1.cc:1156
+#line 4 "rjson/JsonParser.ypp" // lalr1.cc:1167
 } // rjson
-#line 1255 "JsonParser.cpp" // lalr1.cc:1156
-#line 152 "JsonParser.ypp" // lalr1.cc:1157
+#line 1287 "rjson/JsonParser.cpp" // lalr1.cc:1167
+#line 152 "rjson/JsonParser.ypp" // lalr1.cc:1168
 
 
 #include <iostream>

@@ -41,7 +41,7 @@ check: rjson-test$(EXEEXT)
 	cd test && LD_LIBRARY_PATH=.. ../rjson-test$(EXEEXT)
  
 rjson-test$(EXEEXT): $(patsubst %.cpp, .obj/%.o, $(TESTSRCS)) librjson$(LIBEXT)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -lrtest -o $@
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
  
 clean: 
 	rm -rf .obj rjson$(LIBEXT) librjson.a rjson-test$(EXEEXT)	
@@ -51,7 +51,7 @@ dist:
 	cp --parents $(DIST_FILES) rjson-$(VERSION)
 	tar -czvf rjson-$(VERSION).tar.gz rjson-$(VERSION)
 	rm -rf rjson-$(VERSION)
- 
+
 install: rjson$(LIBEXT)
 	mkdir -p $(prefix)/include/rjson
 	cp $(HEADERS) $(prefix)/include/rjson
@@ -78,12 +78,12 @@ endif
 	mkdir -p $(shell dirname $@)
 	$(CXX) $(CXXFLAGS) -MD -c $< -o $@	
 	
-src/JsonLexer.fpp: src/JsonParser.cpp						
-src/JsonLexer.cpp: src/JsonLexer.fpp
+rjson/JsonLexer.fpp: rjson/JsonParser.cpp						
+rjson/JsonLexer.cpp: rjson/JsonLexer.fpp
 	$(FLEX) -o $@ $^
 
-src/JsonParser.hpp: src/JsonParser.ypp
-src/JsonParser.cpp: src/JsonParser.ypp
+rjson/JsonParser.hpp: rjson/JsonParser.ypp
+rjson/JsonParser.cpp: rjson/JsonParser.ypp
 	$(BISON) -o $@ $^
  
 ifneq "$(MAKECMDGOALS)" "clean"

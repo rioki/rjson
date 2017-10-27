@@ -37,17 +37,17 @@ yylloc->step();
 
 "null"              {
                         yylval->value = new rjson::Value;
-                        return token::_NULL;
+                        return token::TK_NULL;
                     }
                    
 "true"              {
                         yylval->value = new rjson::Value(true);
-                        return token::TRUE;
+                        return token::TK_TRUE;
                     }
                     
 "false"             {
                         yylval->value = new rjson::Value(false);
-                        return token::FALSE;
+                        return token::TK_FALSE;
                     }
 
 {string}            {
