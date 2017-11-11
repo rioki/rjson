@@ -44,7 +44,7 @@ rjson-test$(EXEEXT): $(patsubst %.cpp, .obj/%.o, $(TESTSRCS)) librjson$(LIBEXT)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
  
 clean: 
-	rm -rf .obj rjson$(LIBEXT) librjson.a rjson-test$(EXEEXT)	
+	rm -rf .obj librjson$(LIBEXT) librjson.a rjson-test$(EXEEXT)	
  
 dist:
 	mkdir rjson-$(VERSION)
