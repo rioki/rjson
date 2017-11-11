@@ -44,7 +44,7 @@ rjson-test$(EXEEXT): $(patsubst %.cpp, .obj/%.o, $(TESTSRCS)) librjson$(LIBEXT)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
  
 clean: 
-	rm -rf .obj librjson$(LIBEXT) librjson.a rjson-test$(EXEEXT)	
+	rm -rf .obj librjson$(LIBEXT) librjson.a rjson-test$(EXEEXT)
  
 dist:
 	mkdir rjson-$(VERSION)
@@ -52,7 +52,7 @@ dist:
 	tar -czvf rjson-$(VERSION).tar.gz rjson-$(VERSION)
 	rm -rf rjson-$(VERSION)
 
-install: rjson$(LIBEXT)
+install: librjson$(LIBEXT)
 	mkdir -p $(prefix)/include/rjson
 	cp $(HEADERS) $(prefix)/include/rjson
 ifeq ($(OS), Windows_NT)	
