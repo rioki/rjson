@@ -6,3 +6,4 @@ rjson-test.exe
 rjson.dll
 librjson.a
 librjson.dll
+*.user

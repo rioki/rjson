@@ -30,7 +30,7 @@
 #include <iosfwd>
 #include <stdexcept>
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 #define EXPORT __declspec(dllexport)
 #else
 #define EXPORT 
